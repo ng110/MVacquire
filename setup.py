@@ -2,15 +2,20 @@ import os, os.path, platform
 from distutils.core import setup
 from distutils.extension import Extension
 from Cython.Distutils import build_ext
-#import numpy as np
+import numpy as np
 
 mvbase = os.path.normpath(os.getenv('MVIMPACT_ACQUIRE_DIR', 'matrix-vision'))
 if mvbase is None:
-    print "Warning! mvIMPACT Acquire base directory location unknown"
+    print ("Warning! mvIMPACT Acquire base directory location unknown")
     mvbase = 'matrix-vision'
+
+mvbase="C:\Program Files\MATRIX VISION\mvIMPACT Acquire"
 
 mvinclude = mvbase
 mvlib = os.path.join(mvbase, 'lib')
+
+print(mvlib)
+
 bits,foo = platform.architecture()
 if bits == '64bit':
     mvlib = os.path.join(mvlib, r'win\x64')
@@ -19,7 +24,7 @@ ext_modules = [Extension("mv",
                         ["_mvDeviceManager.pyx"],
                         libraries = ["mvDeviceManager"],
                         include_dirs = [mvinclude,
-                                        #np.get_include(),
+                                        np.get_include(),
                                         ],
                         library_dirs = [mvlib],)]
 for e in ext_modules:
